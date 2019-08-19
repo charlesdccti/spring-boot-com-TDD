@@ -15,10 +15,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @author Bruno Nogueira de Oliveira
- * @date 24/08/17.
- */
+//import org.junit.Assert;
+
 @Sql(value = "/load-database.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = "/clean-database.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @RunWith(SpringRunner.class)
@@ -30,19 +28,19 @@ public class PessoaRepositoryTest {
     private PessoaRepository sut;
 
     @Test
-    public void deve_procurar_pessoa_pelo_cpf() throws Exception {
+    public void deve_procurar_pessoa_pelo_cpf() throws  Exception {
         Optional<Pessoa> optional = sut.findByCpf("38767897100");
 
         assertThat(optional.isPresent()).isTrue();
 
         Pessoa pessoa = optional.get();
         assertThat(pessoa.getCodigo()).isEqualTo(3L);
-        assertThat(pessoa.getNome()).isEqualTo("Cauê");
         assertThat(pessoa.getCpf()).isEqualTo("38767897100");
+        assertThat(pessoa.getNome()).isEqualTo("Cauê");
     }
 
     @Test
-    public void nao_deve_encontrar_pessoa_de_cpf_inexistente() throws Exception {
+    public void nao_deve_encontrar_pessoa_com_cpf_inexistente() throws Exception {
         Optional<Pessoa> optional = sut.findByCpf("85165164681");
 
         assertThat(optional.isPresent()).isFalse();
@@ -61,7 +59,7 @@ public class PessoaRepositoryTest {
     }
 
     @Test
-    public void nao_deve_encontrar_pessoa_cujo_ddd_e_telefone_nao_estejam_cadastrados() throws Exception {
+    public void nao_deve_encontrar_pessoa_cujo_ddd_e_telefone_nao_sejam_encontrados() throws Exception {
         Optional<Pessoa> optional = sut.findByTelefoneDddAndTelefoneNumero("11", "324516731");
 
         assertThat(optional.isPresent()).isFalse();
@@ -72,6 +70,7 @@ public class PessoaRepositoryTest {
         PessoaFiltro filtro = new PessoaFiltro();
         filtro.setNome("a");
 
+        // usar uma implementacao concreta da classe "PessoaRepositoryImpl"
         List<Pessoa> pessoas = sut.filtrar(filtro);
 
         assertThat(pessoas.size()).isEqualTo(3);
@@ -82,6 +81,7 @@ public class PessoaRepositoryTest {
         PessoaFiltro filtro = new PessoaFiltro();
         filtro.setCpf("78");
 
+        // usar uma implementacao concreta da classe "PessoaRepositoryImpl"
         List<Pessoa> pessoas = sut.filtrar(filtro);
 
         assertThat(pessoas.size()).isEqualTo(3);

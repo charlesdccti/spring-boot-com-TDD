@@ -16,6 +16,6 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long>, PessoaRep
 
     Optional<Pessoa> findByCpf(String cpf);
 
-    @Query("SELECT bean FROM Pessoa bean JOIN bean.telefones tele WHERE tele.ddd = :ddd AND tele.numero = :numero")
+    @Query("SELECT p FROM Pessoa p JOIN p.telefones tele WHERE tele.ddd = :ddd AND tele.numero = :numero")
     Optional<Pessoa> findByTelefoneDddAndTelefoneNumero(@Param("ddd") String ddd, @Param("numero") String numero);
 }
