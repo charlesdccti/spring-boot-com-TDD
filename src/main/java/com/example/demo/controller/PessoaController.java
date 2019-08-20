@@ -56,6 +56,12 @@ public class PessoaController {
         return new ResponseEntity<>(new Erro(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({UnicidadeCpfException.class})
+    public ResponseEntity<Erro> handleUnicidadeCpfException(UnicidadeCpfException e ){
+        return new ResponseEntity<>(new Erro(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+
     class Erro {
         private final String erro;
 
